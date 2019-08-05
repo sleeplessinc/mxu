@@ -1,47 +1,45 @@
 
 
-let tie = function( form, data ) {
+(function() {
 
-	let fels = form.elements;
+	MXU = function( form, data ) {
 
-	function form_get( name ) {
-		return fels[ name ] ? fels[ name ].value : undefined;
-	}
-	function form_set( name, val ) {
-		if( fels[ name ] ) fels[ name ].value  = val;
-	}
+		let fels = form.elements;
 
-	let p = new Proxy( data, {
-		get: function( tgt, prop ) { //console.log("get");
-			tgt[ prop ] = form_get( prop );
-			return tgt[ prop ];
-		},
+		function form_get( name ) {
+			return fels[ name ] ? fels[ name ].value : undefined;
+		}
+		function form_set( name, val ) {
+			if( fels[ name ] ) fels[ name ].value  = val;
+		}
 
-		set: function( tgt, prop, val ) { //console.log("set");
-			tgt[ prop ] = val;
-			form_set( prop, val );
-		},
-	});
+		let p = new Proxy( data, {
+			get: function( tgt, prop ) { //console.log("get");
+				tgt[ prop ] = form_get( prop );
+				return tgt[ prop ];
+			},
 
-	for(let key in data ) {
-		let e = fels[ key ];
-		if( e ) {
-			e.value = data[ key ];
-			e.onchange = evt => { //log("changed");
-				data[ key ] = e.value;
+			set: function( tgt, prop, val ) { //console.log("set");
+				tgt[ prop ] = val;
+				form_set( prop, val );
+			},
+		});
+
+		for(let key in data ) {
+			let e = fels[ key ];
+			if( e ) {
+				e.value = data[ key ];
+				e.onchange = evt => { //log("changed");
+					data[ key ] = e.value;
+				}
 			}
 		}
-	}
 
-	return p;
-}
+		return p;
 
-let data = {
-	first: "joe",
-	last: "bob",
-};
+	};
 
-proxy = tie( document.forms.foo, data );
+})();
 
 
 
