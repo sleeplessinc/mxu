@@ -3,6 +3,7 @@
 
 MXU is a function that will tie a Javascript object to some user interface elements in the browser DOM.
 It makes use of the ES6 Proxy feature.
+It's very small and has no dependencies.
 
 ## Install
 
