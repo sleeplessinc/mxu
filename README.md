@@ -1,7 +1,7 @@
 
 # MXU
 
-MXU is a function that will tie a Javascript object with user intefface elements in the browser DOM.
+MXU is a function that will tie a Javascript object to some user interface elements in the browser DOM.
 It makes use of the ES6 Proxy feature.
 
 ## Install
@@ -15,11 +15,11 @@ First get the index.js file into your browser page:
 
 	<script src="node_modules/mxu/index.js"></script>
 
-Create a "default" data object that contains the initial values:
+Create a "default" data object that contains some initial values:
 
 	default_data = { title: "MXU Rules!", who: "Bob" }
 
-The build some DOME elements that have "name" attributes.  
+Then build some DOM elements that have "name" attributes.  
 These elements will be matched up to the properties in your default data:
 
 
