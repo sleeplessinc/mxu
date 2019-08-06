@@ -1,58 +1,67 @@
-
-
+// Copyright 2019 - Sleepless Inc. - All Rights Reserved
 (function() {
 
-	MXU = function( form, data ) {
+	let form_types = "input select textarea".toUpperCase().split( " " );
 
-		let fels = form.elements;
+	MXU = function( base, data ) {
 
-		function form_get( name ) {
-			let e = fels[ name ];
-			if( ! e ) 
-				return undefined;
-			if( e.type == "checkbox" )
-				return e.checked;
-			return e.value; 
+		function named_element( name ) {
+			return base.querySelector( "[name="+name+"]" );
 		}
-		function form_set( name, val ) {
-			let e = fels[ name ];
-			if( e ) {
-				if( e.type == "checkbox" )
-					e.checked  = !!val;
-				else
-					e.value  = val;
-			}
-		}
+		
+		let proxy = new Proxy( data, {
 
-		let p = new Proxy( data, {
 			get: function( tgt, prop ) {
-				let v = form_get( prop );
-				if( v !== undefined )
+				let e = named_element( prop );
+				if( e ) {
+					let v;
+					if( form_types.includes( e.tagName ) ) {
+						if( e.type == "checkbox" ) {
+							v = e.checked;
+						}
+						else {
+							v = e.value;
+						}
+					}
+					else {
+						v = e.innerHTML;
+					}
 					tgt[ prop ] = v;
+				}
 				return tgt[ prop ];
 			},
-			set: function( tgt, prop, val ) {
-				tgt[ prop ] = val;
-				form_set( prop, val );
+
+			set: function( tgt, prop, v ) {
+				tgt[ prop ] = v;
+				let e = named_element( prop );
+				if( e ) {
+					if( form_types.includes( e.tagName ) ) {
+						if( e.type == "checkbox" ) {
+							e.checked = !! v;
+						}
+						else {
+							e.value = v;
+						}
+					}
+					else {
+						e.innerHTML = v;
+					}
+				}
 			},
+
 		});
 
 		for(let key in data ) {
-			let e = fels[ key ];
-			if( e ) {
-				let val = data[ key ];
-				if( e.type == "checkbox" )
-					e.checked = !! val;
-				else
-					e.value = val;
+			proxy[ key ] = data[ key ];
+			let e = named_element( key );
+			if( form_types.includes( e.tagName ) ) {
 				e.onchange = evt => {
-					p[ key ] = ( e.type == "checkbox" ) ? e.checked : e.value;
+					proxy[ key ] = e.value;
 				}
 			}
 		}
 
-		return p;
-
+		return proxy;
 	};
 
 })();

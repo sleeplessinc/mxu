@@ -3,8 +3,10 @@
 <script src="./index.js"></script>
 
 <form name=test>
+	
+	<h1 name=title></h1>
 
-	Name: <input name=name type=text> <br>
+	Who: <input name=who type=text> <br>
 
 	Number: <input name=number type=text> <br>
 
@@ -15,13 +17,13 @@
 		<option value=2> Choice 2 </option>
 	</select> <br>
 
-	<input type=submit value="Submit"> <br>
+	<input type=submit name=submit > <br>
 
 </form>
 
 <script>
 
-	let default_data = { name: "Bob", checkbox: true, select: 1 };
+	let default_data = { title: "MXU Rules!", who: "Bob", checkbox: true, select: 1, submit: "Submit" };
 	let live_data = MXU( document.forms.test, default_data );
 
 	document.forms.test.onsubmit = function( evt ) {
