@@ -36,19 +36,19 @@ Finally, call the MXU function to tie your UI to an object by giving it a base e
 It will return a new object that you can then use to get/set values that will be reflected into and out of, the UI.
 
 	<script>
-		let live_data = MXU( document.getElementById( "base" ), default_data );
+		live_data = MXU( document.getElementById( "base" ), default_data );
 	</script>
 
 
 Once you have the live_data object, you can change what appears in the UI by simply setting the properties on the object:
 
-	live_data.title = "New Title"	// changes the innerHTML of the H1 element
-	live_data.who = "Suzy"			// changes the value attribute of the INPUT element
+	live_data.title = "New Title"  // changes the innerHTML of the H1 element
+	live_data.who = "Suzy"         // changes the value attribute of the INPUT element
 
 
 Now if you click in the INPUT field and change it to "Nancy" you can do this:
 
-	name = live_data.who		// name == "Nancy"
+	name = live_data.who           // name == "Nancy"
 
 
 You can also use JSON.stringify() to convert the live_data object to JSON.
