@@ -1,6 +1,6 @@
 {
   "name": "mxu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Model / UI Wiring",
   "main": "index.js",
   "scripts": {

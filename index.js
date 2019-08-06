@@ -15,7 +15,9 @@
 
 		let p = new Proxy( data, {
 			get: function( tgt, prop ) { //console.log("get");
-				tgt[ prop ] = form_get( prop );
+				let v = form_get( prop );
+				if( v !== undefined )
+					tgt[ prop ] = v;
 				return tgt[ prop ];
 			},
 
