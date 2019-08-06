@@ -1,46 +1,61 @@
 
 # MXU
 
-	let tie = function( form, data ) {
+MXU is a function that will tie a Javascript object with user intefface elements in the browser DOM.
+It makes use of the ES6 Proxy feature.
 
-		let fels = form.elements;
+## Install
 
-		function form_get( name ) {
-			return fels[ name ] ? fels[ name ].value : undefined;
-		}
-		function form_set( name, val ) {
-			if( fels[ name ] ) fels[ name ].value  = val;
-		}
+	npm install mxu
 
-		let p = new Proxy( data, {
-			get: function( tgt, prop ) { //console.log("get");
-				tgt[ prop ] = form_get( prop );
-				return tgt[ prop ];
-			},
 
-			set: function( tgt, prop, val ) { //console.log("set");
-				tgt[ prop ] = val;
-				form_set( prop, val );
-			},
-		});
+## Usage
 
-		for(let key in data ) {
-			let e = fels[ key ];
-			if( e ) {
-				e.value = data[ key ];
-				e.onchange = evt => { //log("changed");
-					data[ key ] = e.value;
-				}
-			}
-		}
+First get the index.js file into your browser page:
 
-		return p;
-	}
+	<script src="node_modules/mxu/index.js"></script>
 
-	let data = {
-		first: "joe",
-		last: "bob",
-	};
+Create a "default" data object that contains the initial values:
 
-	proxy = tie( document.forms.foo, data );
+	default_data = { title: "MXU Rules!", who: "Bob" }
+
+The build some DOME elements that have "name" attributes.  
+These elements will be matched up to the properties in your default data:
+
+
+	<div id=base>
+		<h1 name=title></h1>
+		Who: <input name=who type=text>
+	</div>
+
+Form type elements (input, textarea, select, etc.) will have their values initialized to your default values.
+Other elements will have their innerHTML set to the default value instead.
+
+
+Finally, call the MXU function to tie your UI to an object by giving it a base element and your default data.
+It will return a new object that you can then use to get/set values that will be reflected into and out of, the UI.
+
+	<script>
+
+		let live_data = MXU( document.getElementById( "base" ), default_data );
+	
+	</script>
+
+Once you have the live_data object, you can change what appears in the UI by simply setting the properties on the object:
+
+
+	live_data.title = "New Title"	// changes the innerHTML of the H1 element
+	live_data.who = "Suzy"			// changes the value attribute of the INPUT element
+
+Now if you click in the INPUT field and change it to "Nancy" you can do this:
+
+	name = live_data.who		// name == "Nancy"
+
+You can also use JSON.stringify() to convert the live_data object to JSON.
+
+
+## Example
+
+See test.html for a working.
+
 
