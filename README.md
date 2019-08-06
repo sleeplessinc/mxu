@@ -29,8 +29,8 @@ These elements will be matched up to the properties in your default data:
 		Who: <input name=who type=text>
 	</div>
 
-Form type elements (INPUT, TEXTAREA, SELECT, etc.) will have their values initialized to your default values.
-Other elements will have their innerHTML set to the default value instead.
+Form type elements (INPUT, TEXTAREA, SELECT, etc.) will have their editable values initialized to your defaults.
+Other kinds elements will have their innerHTML set to the default value.
 
 Finally, call the MXU function to tie your UI to an object by giving it a base element and your default data.
 It will return a new object that you can then use to get/set values that will be reflected into and out of, the UI.
